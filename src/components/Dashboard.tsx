@@ -1,8 +1,21 @@
 
 import React, { useEffect, useState } from "react";
 
+interface DashboardData {
+  user: string;
+  metrics: {
+    visitors: number;
+    bounce: string;
+    sessions: number;
+  };
+}
+
+interface DashboardProps {
+  email: string | null;
+}
+
 export default function Dashboard({ email }) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<DashboardData | null>(null);
   const [note, setNote] = useState("");
 
   useEffect(() => {
