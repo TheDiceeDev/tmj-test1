@@ -47,7 +47,9 @@ export default function Login({ onLogin }: LoginProps) {
         <input 
           value={email} 
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} 
-          placeholder="you@example.com" 
+          placeholder="you@example.com"
+          required
+          type="email"
         />
         <br />
         <label>Password</label><br />
@@ -55,6 +57,7 @@ export default function Login({ onLogin }: LoginProps) {
           value={pw} 
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPw(e.target.value)} 
           type="password" 
+          required
         />
         <br />
         <button>Sign in</button>
