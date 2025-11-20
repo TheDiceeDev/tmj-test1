@@ -22,7 +22,7 @@ export default function Forgot() {
         // NOTE: forgot endpoint returns a "reset token" in JSON for demo
         // In a real app tokens are emailed; here we intentionally store it in localStorage
         // localStorage.setItem("pixelytics_reset_token", j.resetToken);
-        console.log('Your Reset Token is shown below");
+        console.log('Your Reset Token is shown below');
         console.log('pixelytics_reset_token: ', j.resetToken);
         setHint("Reset requested. Check email (simulated). Reset tokens need to be stored in localStorage.");
       } else {
