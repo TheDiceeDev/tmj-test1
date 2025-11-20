@@ -24,7 +24,7 @@ export default function Forgot() {
         // localStorage.setItem("pixelytics_reset_token", j.resetToken);
         console.log('Your Reset Token is shown below');
         console.log('pixelytics_reset_token: ', j.resetToken);
-        setHint("Reset requested. Check email (simulated). Reset tokens need to be stored in localStorage.");
+        setHint("Reset requested. Check email (simulated).");
       } else {
         setHint(j.error || "Error");
       }
@@ -45,7 +45,7 @@ export default function Forgot() {
         <button>Request reset</button>
       </form>
       <p>{hint}</p>
-      <p>Tip: tokens are stored locally in this demo (for learning purposes).</p>
+      <p>Tip: Reset tokens needs to be stored in localStorage, to get temporary authentication.</p>
     </div>
   );
 }
