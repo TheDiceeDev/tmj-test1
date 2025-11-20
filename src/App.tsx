@@ -5,8 +5,9 @@ import Dashboard from "./components/Dashboard";
 import './App.css'
 
 function App() {
-  const [route, setRoute] = useState("login")
-  const [userEmail, setUserEmail] = useState(null)
+  const [route, setRoute] = useState<"login" | "forgot" | "dashboard">("login")
+  // Fix: Explicitly declare the state can be a string or null
+  const [userEmail, setUserEmail] = useState<string | null>(null)
 
   useEffect(() => {
     // If a session cookie exists the server would validate it on API calls
