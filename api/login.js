@@ -3,9 +3,9 @@ export default function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
   const { email, password } = req.body || {};
   // single user
-  const USER_EMAIL = import.meta.env.CHALLANGE_EMAIL;
+  const USER_EMAIL = process.env.CHALLANGE_EMAIL;
   // this is a stored hash placeholder; we just check equality for demo
-  const CORRECT_PASSWORD = import.meta.env.CHALLANGE_PASSWORD; // For simplicity i've not hashed the password, but still 
+  const CORRECT_PASSWORD = process.env.CHALLANGE_PASSWORD; // For simplicity i've not hashed the password, but still 
 
   if (email === USER_EMAIL && password === CORRECT_PASSWORD) {
     // In a real app we would set an HTTP-only session cookie. Here we simulate success.
