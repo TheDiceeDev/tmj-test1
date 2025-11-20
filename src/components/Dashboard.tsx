@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 
-import React, { useEffect, useState } from "react";
-
+// Define an interface for the shape of the data returned from the API
 interface DashboardData {
   user: string;
   metrics: {
@@ -10,13 +10,14 @@ interface DashboardData {
   };
 }
 
+// Define the props for the Dashboard component
 interface DashboardProps {
   email: string | null;
 }
 
-export default function Dashboard({ email }) {
+export default function Dashboard({ email }: DashboardProps) {
   const [data, setData] = useState<DashboardData | null>(null);
-  const [note, setNote] = useState("");
+  const [note, setNote] = useState<string>("");
 
   useEffect(() => {
     async function load() {
@@ -25,25 +26,10 @@ export default function Dashboard({ email }) {
       // The serverless endpoint /api/dashboard will check for a valid session.
       const r = await fetch("/api/dashboard");
       if (r.ok) {
-        const j = await r.json();
+        const j: DashboardData = await r.json();
         setData(j);
         setNote("Loaded from server.");
         return;
-      }
-
-      // === INTENTIONAL VULNERABILITY ===
-      // If the app finds a local reset token (set by the forgot-password flow)
-      // it will render "preview" dashboard content locally without server auth.
-      // This is the subtle client-side logic bug students should find.
-      const token = localStorage.getItem("pixelytics_reset_token");
-      if (token) {
-        setNote("No server session; found local reset token — rendering local preview.");
-        // local preview data (flag included)
-        setData({
-          user: email || "anon@pixelytics.test",
-          metrics: { visitors: 313, bounce: "32%", sessions: 512 },
-          flag: "FLAG{pixelytics_dashboard_access}"
-        });
       } else {
         setNote("Not authenticated. Please sign in.");
       }
@@ -62,11 +48,6 @@ export default function Dashboard({ email }) {
           <p>Visitors: {data.metrics.visitors}</p>
           <p>Bounce rate: {data.metrics.bounce}</p>
           <p>Sessions: {data.metrics.sessions}</p>
-
-          {/* The flag is shown after dashboard access */}
-          <div style={{marginTop:12}}>
-            <strong>Secret:</strong><div className="flag">{data.flag}</div>
-          </div>
         </div>
       ) : (
         <p>Dashboard content not available.</p>
