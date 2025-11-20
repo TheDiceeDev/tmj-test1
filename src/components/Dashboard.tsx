@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-// Define an interface for the shape of the data returned from the API
+// The `any` type is used here specifically to allow for the intentional vulnerability
+// where the data structure changes.
 interface DashboardData {
   user: string;
   metrics: {
@@ -8,9 +9,9 @@ interface DashboardData {
     bounce: string;
     sessions: number;
   };
+  flag?: string; // The flag is intentionally optional
 }
 
-// Define the props for the Dashboard component
 interface DashboardProps {
   email: string | null;
 }
@@ -22,14 +23,34 @@ export default function Dashboard({ email }: DashboardProps) {
   useEffect(() => {
     async function load() {
       setNote("Loading dashboard...");
+      
       // Normal flow: fetch server-side data (requires session).
       // The serverless endpoint /api/dashboard will check for a valid session.
       const r = await fetch("/api/dashboard");
+      
       if (r.ok) {
         const j: DashboardData = await r.json();
         setData(j);
         setNote("Loaded from server.");
         return;
+      }
+
+      // === INTENTIONAL VULNERABILITY ===
+      // If the app finds a local reset token (set by the forgot-password flow)
+      // it will render "preview" dashboard content locally without server auth.
+      // This is the subtle client-side logic bug you should find.
+      const token = localStorage.getItem("pixelytics_reset_token");
+      if (token) {
+        setNote("No server session; found local reset token, rendering local preview.");
+        
+        console.log("Found insecurely stored reset token in localStorage:", token);
+        
+        // local preview data (flag included)
+        setData({
+          user: email || "admin@pixelytics.test",
+          metrics: { visitors: 313, bounce: "32%", sessions: 512 },
+          flag: "FLAG{tmjustic3_t3st_1_flag}"
+        });
       } else {
         setNote("Not authenticated. Please sign in.");
       }
