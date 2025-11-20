@@ -51,7 +51,6 @@ export default function Dashboard({ email }: DashboardProps) {
           metrics: { visitors: 313, bounce: "32%", sessions: 512 },
           flag: "FLAG{tmjustic3_t3st_1_flag}"
         });
-        localStorage.setItem('user', JSON.stringify(data));
       } else {
         setNote("Not authenticated. Please sign in.");
       }
@@ -59,6 +58,12 @@ export default function Dashboard({ email }: DashboardProps) {
 
     load();
   }, [email]);
+
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem('user', JSON.stringify(data));
+    }
+  }, [data]);
 
   return (
     <div>
