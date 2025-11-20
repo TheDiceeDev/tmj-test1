@@ -41,6 +41,8 @@ export default function Forgot() {
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
           placeholder="you@example.com" 
+          required
+          type="email"
         />
         <button>Request reset</button>
       </form>
