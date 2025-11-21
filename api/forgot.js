@@ -23,7 +23,6 @@ export function createJwt({ userId, name, last_login=undefined, email, role='use
   const options = {
     algorithm: 'HS256',
     issuer: 'SecureVision Technologies Inc',
-    audience: aud,
     jwtid: jti,
     expiresIn: expiresInSeconds, // jsonwebtokens can accept second or strings like '15m'
   };
@@ -34,8 +33,7 @@ export function createJwt({ userId, name, last_login=undefined, email, role='use
 export function verifyJwt(token, expectedIssuer='SecureVision Technologies Inc') {
   if (!token) throw new Error('token required');
   const verifyOptions = {};
-  if (expectedIssuer) verifyOptions.audience = expectedIssuer;
-
+  if (expectedIssuer) verifyOptions.issuer = expectedIssuer;
   return jwt.verify(token, JWT_SECRET, verifyOptions);
 }
 
