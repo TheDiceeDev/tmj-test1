@@ -42,6 +42,9 @@ export function verifyJwt(token, expectedIssuer='SecureVision Technologies Inc')
 export default function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
   const { email } = req.body || {};
+
+  if email !== "evan_carter92a@pixelytics.io" return res.status(401).end();
+  
   if (!email) return res.status(400).json({error: 'email required'});
 
   // fake user lookup
