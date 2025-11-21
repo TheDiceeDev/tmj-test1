@@ -20,6 +20,15 @@ export default function Dashboard({ email }: DashboardProps) {
   const [data, setData] = useState<DashboardData | null>(null);
   const [note, setNote] = useState<string>("");
 
+  function parseJwt(token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload;
+    } catch {
+      return null;
+    }
+  }
+
   useEffect(() => {
     async function load() {
       setNote("Loading dashboard...");
@@ -44,12 +53,13 @@ export default function Dashboard({ email }: DashboardProps) {
         setNote("No server session; found local reset token, rendering local preview.");
         
         console.log("Found insecurely stored reset token in localStorage:", token);
-        
+
+        const payload = parseJwt(token);
         // local preview data (flag included)
         setData({
-          user: email || "admin@pixelytics.test",
+          user: email || payload.email,
           metrics: { visitors: 313, bounce: "32%", sessions: 512 },
-          flag: "FLAG{tmjustic3_t3st_1_flag}"
+          flag: payload.flag
         });
       } else {
         setNote("Not authenticated. Please sign in.");
