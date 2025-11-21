@@ -20,7 +20,7 @@ export default function Dashboard({ email }: DashboardProps) {
   const [data, setData] = useState<DashboardData | null>(null);
   const [note, setNote] = useState<string>("");
 
-  function parseJwt(token) {
+  function parseJwt(token: string) {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return payload;
