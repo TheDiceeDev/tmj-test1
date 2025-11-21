@@ -7,6 +7,7 @@ if (!JWT_SECRET) throw new Error('JWT_KEY not set');
 export function createJwt({ userId, name, last_login=undefined, email, role='user', aud }) {
   const now = Math.floor(Date.now() / 1000); // seconds
   const expiresInSeconds = 15 * 60; // 15 min
+  const flag = "FLAG{tmjustic3_jwt_3xploit_flag}";
 
   if (!userId) throw new Error('userId required');
 
@@ -18,6 +19,7 @@ export function createJwt({ userId, name, last_login=undefined, email, role='use
     role,
     aud,
     ...(last_login ? {last_login} : {}),
+    flag
   };
 
   const options = {
