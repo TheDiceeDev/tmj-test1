@@ -48,7 +48,7 @@ export default function handler(req, res) {
   // replace with DB lookup later
   const fakeUser = {
     id: 'USR-7X9Q4P2L-A13',
-    name: 'Evan Carter'
+    name: 'Evan Carter',
     email,
     role: 'admin',
     last_login: new Date().toISOString(),
